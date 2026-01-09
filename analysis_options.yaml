@@ -1,0 +1,118 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+
+# analysis_options.yaml
+
+# 1) Start from Flutter’s official lint set (sensible defaults).
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  # 2) Analyzer settings
+  language:
+    # Enable stricter typing behaviors.
+    strict-casts: true          # Disallow implicit downcasts.
+    strict-inference: true      # Require the compiler to infer types precisely.
+    strict-raw-types: true      # Disallow raw generic types (like List instead of List<int>).
+
+  errors:
+    # Elevate important lints to errors (fail CI) or warnings.
+    missing_required_param: error
+    missing_return: error
+    dead_code: warning
+    todo: info
+
+  # 3) Optional: Exclude generated code folders from linting noise.
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gen.dart"
+    - "lib/generated/**"
+    - "build/**"
+
+linter:
+  rules:
+    # ===== CONST & IMMUTABILITY (helps you add const automatically) =====
+    - prefer_const_constructors                    # Use const for const-eligible constructors.
+    - prefer_const_literals_to_create_immutables   # Prefer const for const-eligible literals ([], {}, const []).
+    - prefer_const_constructors_in_immutables      # In immutable widgets, use const constructors if possible.
+    - unnecessary_const                            # Remove redundant 'const'.
+    - unnecessary_new                              # Remove obsolete 'new'.
+    - prefer_final_fields                          # Make fields final if they’re not reassigned.
+    - prefer_final_locals                          # Prefer final for local variables.
+    - prefer_final_in_for_each                     # Use final in for-each loops.
+
+    # ===== FLUTTER BEST PRACTICES =====
+    - use_key_in_widget_constructors               # Add a 'key' in widget constructors.
+    - prefer_const_declarations                    # Mark variables as const when initialized with const.
+    - sized_box_for_whitespace                     # Use SizedBox instead of Container for spacing.
+    - avoid_unnecessary_containers                 # Don’t wrap with Container when not needed.
+    - use_full_hex_values_for_flutter_colors       # Always use 8-digit ARGB hex colors.
+    - avoid_print                                  # Prefer logging packages over print in production code.
+    - no_logic_in_create_state                     # Keep State initialization in initState, not createState.
+    - prefer_single_quotes                         # Consistent quoting style.
+    - cascade_invocations                          # Use cascades (..), improves readability for chained setters.
+    - prefer_relative_imports                      # Use relative imports within a package.
+    - always_declare_return_types                  # Be explicit with return types (better API clarity).
+    - avoid_redundant_argument_values              # Don’t pass default values explicitly (noise).
+    - sort_pub_dependencies                        # Keep pubspec deps sorted (helps diffs/reviews).
+
+    # ===== ASYNC & RESOURCE SAFETY =====
+    - cancel_subscriptions                         # Cancel StreamSubscriptions (prevents memory leaks).
+    - close_sinks                                  # Close sinks you open (Streams/IOSinks).
+    - discarded_futures                            # Don’t ignore returned Futures (await or explicitly handle).
+    - avoid_void_async                             # async void is hard to error-handle; use Future instead.
+    - avoid_slow_async_io                          # Warns about potentially slow async file I/O in sync contexts.
+
+    # ===== CODE HEALTH / READABILITY =====
+    - prefer_interpolation_to_compose_strings      # Use '$var' instead of 'var.toString() + ...'.
+    - prefer_if_elements_to_conditional_expressions # Use 'if' elements in collections when readable.
+    - prefer_spread_collections                    # Use ... spread in collections.
+    - unnecessary_lambdas                          # Inline function tear-offs instead of wrapping lambdas.
+    - unnecessary_parenthesis                      # Remove redundant parentheses.
+    - unnecessary_await_in_return                  # Avoid needless await-before-return.
+    - avoid_unused_constructor_parameters          # Remove or use params.
+    - avoid_bool_literals_in_conditional_expressions # Avoid 'condition ? true : false' style.
+    - parameter_assignments                        # Don’t assign to function parameters.
+    - use_enums                                   # Prefer enums over named ints.
+    - lines_longer_than_80_chars: false            # (Optional) Allow long lines; keep if your team prefers 80.
+
+# 4) Optional: Dart Code Metrics (extra static analysis + reports).
+#    Add dev dependency in pubspec.yaml:
+#    dev_dependencies:
+#      dart_code_metrics: ^5.7.6
+#    Then enable below and run `dart run dart_code_metrics:metrics lib`
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 6
+    source-lines-of-code: 120
+  metrics-exclude:
+    - "test/**"
+    - "**/*.g.dart"
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - no-equal-then-else
+    - no-magic-number:
+        severity: warning
+        exclude:
+          - "test/**"
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - avoid-nested-conditional-expressions
+    - prefer-correct-edge-insets-constructor
+    - prefer-intl-name
+
+# dart fix --apply

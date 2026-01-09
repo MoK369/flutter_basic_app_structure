@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+import '../../modules/home/home_screen.dart';
+import 'defined_routes.dart' show DefinedRoutes;
+import 'page_transitions.dart' show PageTransitions;
+
+abstract class RoutingProvider {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    try {
+      final String? name = settings.name;
+      //var args = settings.arguments;
+      switch (name) {
+        case DefinedRoutes.homeRoute:
+          return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const HomeScreen(),
+            transitionsBuilder: PageTransitions.slideAndFade,
+          );
+
+        default:
+          return _errorRoute();
+      }
+    } catch (e) {
+      return _errorRoute();
+    }
+  }
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return Material(
+          child: Container(
+            color: Colors.red,
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    'Error! You Have Navigated To A Wrong Route. Or Navigated With Wrong Arguments',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
