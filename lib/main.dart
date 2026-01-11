@@ -8,6 +8,8 @@ import 'core/l10n/generated/app_localizations.dart' show AppLocalizations;
 import 'core/layers/localization/l10n_manager/localization_manager.dart'
     show LocalizationManager;
 import 'core/routing/routing_provider.dart';
+import 'core/screen/custom_breakpoints.dart';
+import 'core/theme/factory/app_theme_factory.dart';
 import 'modules/home/home_screen.dart';
 
 GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
@@ -40,6 +42,15 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             onGenerateRoute: RoutingProvider.generateRoute,
+            builder: (context, child) {
+              return Theme(
+                data: AppThemeFactory.create(
+                  brightness: Brightness.light,
+                  device: CustomBreakpoints().of(context),
+                ),
+                child: child!,
+              );
+            },
             home: const HomeScreen(),
           );
         },

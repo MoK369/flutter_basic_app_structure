@@ -33,6 +33,7 @@ dependencies:
 
   dio: ^5.9.0
 
+  fit_ui: ^1.0.5
   flutter:
     sdk: flutter
   flutter_dotenv: ^6.0.0

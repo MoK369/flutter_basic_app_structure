@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../l10n/generated/app_localizations.dart' show AppLocalizations;
+import '../theme/extensions/app_typography.dart';
 
 abstract class BaseStatelessWidget extends StatefulWidget {
   const BaseStatelessWidget({super.key});
@@ -20,10 +21,12 @@ class _BaseStatelessWidgetState extends State<BaseStatelessWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final theme = Theme.of(context);
     dependency = CommonDependency(
       AppLocalizations.of(context)!,
-      Theme.of(context),
+      theme,
       MediaQuery.sizeOf(context),
+      theme.extension<AppTypography>() ?? AppTypography.mobileBase,
     );
   }
 
@@ -36,9 +39,16 @@ class _BaseStatelessWidgetState extends State<BaseStatelessWidget> {
 class CommonDependency {
   AppLocalizations appLocalizations;
   ThemeData theme;
+
+  AppTypography typography;
   Size screenSize;
 
-  CommonDependency(this.appLocalizations, this.theme, this.screenSize);
+  CommonDependency(
+    this.appLocalizations,
+    this.theme,
+    this.screenSize,
+    this.typography,
+  );
 
   void displaySnackBar({
     required ContentType contentType,

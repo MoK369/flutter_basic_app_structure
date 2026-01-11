@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
+  fit_ui:
+    dependency: "direct main"
+    description:
+      name: fit_ui
+      sha256: "8e6ff4340307e829ca8a1a3054923fa217ffffda34fc78c7b52d26d87c080d90"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   fixnum:
     dependency: transitive
     description:
