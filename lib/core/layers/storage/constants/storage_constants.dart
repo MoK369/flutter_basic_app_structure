@@ -1,9 +1,7 @@
 abstract class StorageConstants {
-  static const String storedMessage = "Stored";
-  static const String rememberMeValueKey = "rememberMeKey";
-  static const String successMessage = "success";
-  static const String loginModelKey = "loginModelKey";
-  static const String localeKey = "AppLocal";
+  static const String rememberMeValueKey = 'rememberMeKey';
+  static const String localeKey = 'AppLocal';
+  static const String themeKey = 'AppTheme';
   static const String beginner = '67c797e226895f87ce0aa94b';
   static const String intermediate = '67c797e226895f87ce0aa94c';
   static const String advance = '67c797e226895f87ce0aa94e';

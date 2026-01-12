@@ -1,27 +1,31 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show ChangeNotifier, Locale;
 import 'package:injectable/injectable.dart' show Named, singleton;
 
-import '../../../api/error/api_error_handler.dart';
-import '../../../di/injectable_initializer.dart' show getIt;
-import '../../../l10n/generated/app_localizations.dart';
-import '../../../validation/validation_functions.dart';
-import '../../storage/constants/storage_constants.dart';
-import '../../storage/contracts/flutter_secure_storage_service_contract.dart';
-import '../constants/l10n_constants.dart';
-import '../enums/languages_enum.dart';
+import '../../../../api/error/api_error_handler.dart';
+import '../../../../di/injectable_initializer.dart' show getIt;
+import '../../../../validation/validation_functions.dart';
+import '../../../storage/constants/storage_constants.dart';
+import '../../../storage/contracts/flutter_secure_storage_service_contract.dart';
+import '../../constants/l10n_constants.dart';
+import '../../enums/languages_enum.dart';
+import '../generated/app_localizations.dart' show AppLocalizations;
 
 @singleton
 class LocalizationManager extends ChangeNotifier {
-  String currentLocale;
+  String _currentLocale;
   final StorageService _storageService;
 
   LocalizationManager(
     this._storageService,
-    @Named(L10nConstants.initCurrentLocal) this.currentLocale,
+    @Named(L10nConstants.initCurrentLocal) this._currentLocale,
   );
 
+  String get currentLocale {
+    return _currentLocale;
+  }
+
   Future<void> changeLocal(LanguagesEnum languageEnum) async {
-    currentLocale = languageEnum.getLanguageCode();
+    _currentLocale = languageEnum.getLanguageCode();
     final appLocalization = await AppLocalizations.delegate.load(
       Locale(languageEnum.getLanguageCode()),
     );

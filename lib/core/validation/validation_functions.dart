@@ -1,6 +1,7 @@
-import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart' show lazySingleton;
 
-import '../l10n/generated/app_localizations.dart' show AppLocalizations;
+import '../layers/localization/l10n/generated/app_localizations.dart'
+    show AppLocalizations;
 
 @lazySingleton
 class ValidateFunctions {

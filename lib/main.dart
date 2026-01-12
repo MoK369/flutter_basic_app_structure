@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' show dotenv;
 import 'package:provider/provider.dart'
-    show MultiProvider, ChangeNotifierProvider, Consumer;
+    show MultiProvider, ChangeNotifierProvider, Consumer2;
 
 import 'core/di/injectable_initializer.dart';
-import 'core/l10n/generated/app_localizations.dart' show AppLocalizations;
-import 'core/layers/localization/l10n_manager/localization_manager.dart'
+import 'core/layers/localization/l10n/generated/app_localizations.dart'
+    show AppLocalizations;
+import 'core/layers/localization/l10n/manager/localization_manager.dart'
     show LocalizationManager;
+import 'core/layers/theme/factory/app_theme_factory.dart' show AppThemeFactory;
+import 'core/layers/theme/manager/theme_manager.dart';
 import 'core/routing/routing_provider.dart';
 import 'core/screen/custom_breakpoints.dart';
-import 'core/theme/factory/app_theme_factory.dart';
 import 'modules/home/home_screen.dart';
 
 GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
@@ -32,9 +34,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => getIt<LocalizationManager>()),
+        ChangeNotifierProvider(create: (_) => getIt<ThemeManager>()),
       ],
-      child: Consumer<LocalizationManager>(
-        builder: (context, l10nManager, child) {
+      child: Consumer2<LocalizationManager, ThemeManager>(
+        builder: (context, l10nManager, themeManager, child) {
           return MaterialApp(
             title: 'Flutter Demo',
             navigatorKey: globalNavigatorKey,
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return Theme(
                 data: AppThemeFactory.create(
-                  brightness: Brightness.light,
+                  brightness: themeManager.currentTheme,
                   device: CustomBreakpoints().of(context),
                 ),
                 child: child!,

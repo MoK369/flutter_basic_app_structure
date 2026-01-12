@@ -1,9 +1,7 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart' show Locale;
 import 'package:injectable/injectable.dart' show Named, module, preResolve;
 
-import '../../layers/localization/constants/l10n_constants.dart'
-    show L10nConstants;
+import '../../constants/l10n_constants.dart' show L10nConstants;
 import '../generated/app_localizations.dart';
 
 @module

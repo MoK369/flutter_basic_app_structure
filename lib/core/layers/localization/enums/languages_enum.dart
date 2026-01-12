@@ -2,8 +2,7 @@ enum LanguagesEnum { en, ar }
 
 extension LanguagesEnumExtension on LanguagesEnum {
   String getLanguageCode() {
-    final result = toString().split('.').toList()[1];
-    return result;
+    return toString().split('.').toList()[1];
   }
 
   String getLanguageName() {

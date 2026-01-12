@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart' show globalNavigatorKey;
 import '../di/injectable_initializer.dart' show getIt;
-import '../l10n/generated/app_localizations.dart' show AppLocalizations;
-import '../layers/localization/l10n_manager/localization_manager.dart';
-import '../theme/extensions/app_typography.dart';
+import '../layers/localization/l10n/generated/app_localizations.dart'
+    show AppLocalizations;
+import '../layers/localization/l10n/manager/localization_manager.dart';
+import '../layers/theme/extensions/app_typography.dart' show AppTypography;
 import '../validation/validation_functions.dart';
 
 typedef VoidFunction = void Function()?;

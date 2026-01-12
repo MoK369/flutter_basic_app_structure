@@ -3,8 +3,9 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart'
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
-import '../l10n/generated/app_localizations.dart' show AppLocalizations;
-import '../theme/extensions/app_typography.dart';
+import '../layers/localization/l10n/generated/app_localizations.dart'
+    show AppLocalizations;
+import '../layers/theme/extensions/app_typography.dart' show AppTypography;
 
 abstract class BaseStatelessWidget extends StatefulWidget {
   const BaseStatelessWidget({super.key});

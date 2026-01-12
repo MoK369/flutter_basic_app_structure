@@ -14,10 +14,11 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../api/error/api_error_handler.dart' as _i367;
-import '../l10n/generated/app_localizations.dart' as _i735;
-import '../l10n/register/app_localization_register.dart' as _i734;
 import '../layers/localization/initializer/locale_initializer.dart' as _i806;
-import '../layers/localization/l10n_manager/localization_manager.dart' as _i589;
+import '../layers/localization/l10n/generated/app_localizations.dart' as _i58;
+import '../layers/localization/l10n/manager/localization_manager.dart' as _i362;
+import '../layers/localization/l10n/register/app_localization_register.dart'
+    as _i555;
 import '../layers/storage/contracts/flutter_secure_storage_service_contract.dart'
     as _i349;
 import '../layers/storage/implementation/flutter_secure_storage_service_imp.dart'
@@ -47,23 +48,23 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'initCurrentLocal',
       preResolve: true,
     );
-    gh.singleton<_i589.LocalizationManager>(
-      () => _i589.LocalizationManager(
+    gh.singleton<_i362.LocalizationManager>(
+      () => _i362.LocalizationManager(
         gh<_i349.StorageService>(),
         gh<String>(instanceName: 'initCurrentLocal'),
       ),
     );
-    await gh.factoryAsync<_i735.AppLocalizations>(
+    await gh.factoryAsync<_i58.AppLocalizations>(
       () => appLocalizationRegister.register(
         gh<String>(instanceName: 'initCurrentLocal'),
       ),
       preResolve: true,
     );
     gh.lazySingleton<_i367.ApiErrorHandler>(
-      () => _i367.ApiErrorHandler(gh<_i735.AppLocalizations>()),
+      () => _i367.ApiErrorHandler(gh<_i58.AppLocalizations>()),
     );
     gh.lazySingleton<_i166.ValidateFunctions>(
-      () => _i166.ValidateFunctions(gh<_i735.AppLocalizations>()),
+      () => _i166.ValidateFunctions(gh<_i58.AppLocalizations>()),
     );
     return this;
   }
@@ -73,4 +74,4 @@ class _$StoragesInitializer extends _i272.StoragesInitializer {}
 
 class _$LocaleInitializer extends _i806.LocaleInitializer {}
 
-class _$AppLocalizationRegister extends _i734.AppLocalizationRegister {}
+class _$AppLocalizationRegister extends _i555.AppLocalizationRegister {}

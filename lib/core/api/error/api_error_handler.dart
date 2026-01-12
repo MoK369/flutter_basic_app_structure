@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../l10n/generated/app_localizations.dart' show AppLocalizations;
+import '../../layers/localization/l10n/generated/app_localizations.dart'
+    show AppLocalizations;
 
 @lazySingleton
 class ApiErrorHandler {

@@ -26,8 +26,8 @@ abstract class RoutingProvider {
   }
 
   static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
         return Material(
           child: Container(
             color: Colors.red,
@@ -50,6 +50,7 @@ abstract class RoutingProvider {
           ),
         );
       },
+      transitionsBuilder: PageTransitions.slideAndFade,
     );
   }
 }
