@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "9.0.0"
   ansicolor:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: ansicolor
       sha256: "50e982d500bc863e1d703448afdbf9e5a72eb48840a4f766fa361ffd6877055f"
@@ -93,10 +93,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "110c56ef29b5eb367b4d17fc79375fa8c18a6cd7acd92c05bb3986c17a079057"
+      sha256: "39ad4ca8a2876779737c60e4228b4bcd35d4352ef7e14e47514093edc012c734"
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.4"
+    version: "2.11.1"
   built_collection:
     dependency: transitive
     description:
@@ -213,10 +213,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: d90ee57923d1828ac14e492ca49440f65477f4bb1263575900be731a3dac66a9
+      sha256: b9d46faecab38fc8cc286f80bc4d61a3bb5d4ac49e51ed877b4d6706efe57b25
       url: "https://pub.dev"
     source: hosted
-    version: "5.9.0"
+    version: "5.9.1"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -385,10 +385,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: "1d648d2dd2047d7f7450d5727ca24ee435f240385753d90b49650e3cdff32e56"
+      sha256: "568d62f0e68666fb5d95519743b3c24a34c7f19d834b0658c46e26d778461f66"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.0"
+    version: "9.2.1"
   glob:
     dependency: transitive
     description:
@@ -729,10 +729,10 @@ packages:
     dependency: "direct dev"
     description:
       name: retrofit_generator
-      sha256: fed2c4e4ed6dab084c00d25c739988aa3cec1acd2b168771136188cced8d967d
+      sha256: "2381d86c7291b55bf1d3b30d12054a74c417ba97321afbd73cb25be0e6fa401f"
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.1"
+    version: "10.2.3"
   rxdart:
     dependency: transitive
     description:
@@ -858,6 +858,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.0"
+  talker:
+    dependency: transitive
+    description:
+      name: talker
+      sha256: "4160d27f4da6d87f016212bbe6abfb15c8954b72726a0f154d72f77664c48b8c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.13"
+  talker_dio_logger:
+    dependency: "direct main"
+    description:
+      name: talker_dio_logger
+      sha256: c5769f4b1ee6fcc1a0670cdfc7f3253016a1090b583aeb70e3ccd73f479970a8
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.13"
+  talker_logger:
+    dependency: transitive
+    description:
+      name: talker_logger
+      sha256: ed5f8434f17f3988548abc5f617b88e7a5d2d61d7a975e7c12eee75755848aa8
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.13"
   term_glyph:
     dependency: transitive
     description:

@@ -5,11 +5,12 @@ import '../../storage/constants/storage_constants.dart';
 import '../../storage/contracts/flutter_secure_storage_service_contract.dart';
 import '../constants/theme_constants.dart';
 import '../extensions/brightness_enum_extension.dart';
+import '../initializer/theme_initializer.dart';
 
 @singleton
 class ThemeManager extends ChangeNotifier {
   final StorageService _storageService;
-  Brightness _currentTheme;
+  final InitialTheme _currentTheme;
 
   ThemeManager(
     this._storageService,
@@ -17,11 +18,11 @@ class ThemeManager extends ChangeNotifier {
   );
 
   Brightness get currentTheme {
-    return _currentTheme;
+    return _currentTheme.theme;
   }
 
   void changeTheme(Brightness newTheme) {
-    _currentTheme = newTheme;
+    _currentTheme.theme = newTheme;
     _saveTheme();
     notifyListeners();
   }
@@ -29,7 +30,7 @@ class ThemeManager extends ChangeNotifier {
   void _saveTheme() {
     _storageService.setStringValue(
       StorageConstants.themeKey,
-      _currentTheme.getName(),
+      _currentTheme.theme.getName(),
     );
   }
 }

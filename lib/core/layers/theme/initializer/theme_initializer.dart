@@ -10,10 +10,18 @@ import '../extensions/brightness_enum_extension.dart';
 abstract class ThemeInitializer {
   @preResolve
   @Named(ThemeConstants.initCurrentTheme)
-  Future<Brightness> getInitCurrentTheme(StorageService storageService) async {
+  Future<InitialTheme> getInitCurrentTheme(
+    StorageService storageService,
+  ) async {
     final savedTheme =
         (await storageService.getStringValue(StorageConstants.localeKey)) ??
         Brightness.light.getName();
-    return BrightnessEnumExtension.getBrightnessValue(savedTheme);
+    return InitialTheme(BrightnessEnumExtension.getBrightnessValue(savedTheme));
   }
+}
+
+class InitialTheme {
+  Brightness theme;
+
+  InitialTheme(this.theme);
 }
