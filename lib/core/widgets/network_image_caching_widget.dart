@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart'
+import 'package:cached_network_image_ce/cached_network_image.dart'
     show CachedNetworkImage;
 import 'package:flutter/material.dart'
     show
@@ -19,7 +19,7 @@ class NetworkImageCachingWidget extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       placeholder: (context, url) => const CircularProgressIndicator(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorBuilder: (context, object, stackTrace) => const Icon(Icons.error),
     );
   }
 }

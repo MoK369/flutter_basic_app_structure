@@ -7,33 +7,21 @@ import '../layers/localization/l10n/generated/app_localizations.dart'
     show AppLocalizations;
 import '../layers/theme/extensions/app_typography.dart' show AppTypography;
 
-abstract class BaseStatelessWidget extends StatefulWidget {
+abstract class BaseStatelessWidget extends StatelessWidget {
   const BaseStatelessWidget({super.key});
 
-  Widget build(BuildContext context, CommonDependency dependency);
+  Widget buildWith(BuildContext context, CommonDependency d);
 
   @override
-  State<BaseStatelessWidget> createState() => _BaseStatelessWidgetState();
-}
-
-class _BaseStatelessWidgetState extends State<BaseStatelessWidget> {
-  late CommonDependency dependency;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    dependency = CommonDependency(
+    final d = CommonDependency(
       AppLocalizations.of(context)!,
       theme,
       MediaQuery.sizeOf(context),
       theme.extension<AppTypography>() ?? AppTypography.mobileBase,
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.build(context, dependency);
+    return buildWith(context, d);
   }
 }
 
