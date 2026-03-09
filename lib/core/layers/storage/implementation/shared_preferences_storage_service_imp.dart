@@ -1,26 +1,24 @@
-import 'dart:convert' show jsonEncode, jsonDecode;
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart'
-    show FlutterSecureStorage;
 import 'package:injectable/injectable.dart' show LazySingleton, Named;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../functions/safe_print.dart' show safePrint;
-import '../../../handlers/execution/execution_handler.dart';
+import '../../../handlers/execution/execution_handler.dart'
+    show ExecutionHandler;
 import '../../../handlers/execution/execution_result.dart';
 import '../constants/storage_constants.dart';
 import '../contracts/storage_service_contract.dart';
 
 @LazySingleton(as: StorageService)
-@Named(StorageConstants.secureStorage)
-class SecureStorageServiceImp implements StorageService {
-  final FlutterSecureStorage storageInstance;
+@Named(StorageConstants.sharedPreferences)
+class SharedPreferencesStorageServiceImp implements StorageService {
+  final SharedPreferences storageInstance;
 
-  SecureStorageServiceImp(this.storageInstance);
+  SharedPreferencesStorageServiceImp(this.storageInstance);
 
   @override
   Future<void> setInt(String key, int value) async {
     final storageResult = await ExecutionHandler.execute<void>(
-      () => storageInstance.write(key: key, value: '$value'),
+      () => storageInstance.setInt(key, value),
     );
     if (storageResult is ExecutionError) {
       safePrint(
@@ -32,7 +30,7 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<void> setDouble(String key, double value) async {
     final storageResult = await ExecutionHandler.execute<void>(
-      () => storageInstance.write(key: key, value: '$value'),
+      () => storageInstance.setDouble(key, value),
     );
     if (storageResult is ExecutionError) {
       safePrint(
@@ -44,7 +42,7 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<void> setBool(String key, bool value) async {
     final storageResult = await ExecutionHandler.execute<void>(
-      () => storageInstance.write(key: key, value: '$value'),
+      () => storageInstance.setBool(key, value),
     );
     if (storageResult is ExecutionError) {
       safePrint(
@@ -56,7 +54,7 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<void> setString(String key, String value) async {
     final storageResult = await ExecutionHandler.execute<void>(
-      () => storageInstance.write(key: key, value: value),
+      () => storageInstance.setString(key, value),
     );
     if (storageResult is ExecutionError) {
       safePrint(
@@ -68,7 +66,7 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<void> setStringList(String key, List<String> value) async {
     final storageResult = await ExecutionHandler.execute<void>(
-      () => storageInstance.write(key: key, value: jsonEncode(value)),
+      () => storageInstance.setStringList(key, value),
     );
     if (storageResult is ExecutionError) {
       safePrint(
@@ -80,12 +78,12 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<int?> getInt(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.read(key: key),
+      () => storageInstance.getInt(key),
     );
     switch (storageResult) {
-      case ExecutionSuccess<String?>():
-        return int.tryParse(storageResult.data ?? '');
-      case ExecutionError<String?>():
+      case ExecutionSuccess<int?>():
+        return storageResult.data;
+      case ExecutionError<int?>():
         safePrint(
           StorageConstants.errorReadingMessage(storageResult.error.toString()),
         );
@@ -96,12 +94,12 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<double?> getDouble(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.read(key: key),
+      () => storageInstance.getDouble(key),
     );
     switch (storageResult) {
-      case ExecutionSuccess<String?>():
-        return double.tryParse(storageResult.data ?? '');
-      case ExecutionError<String?>():
+      case ExecutionSuccess<double?>():
+        return storageResult.data;
+      case ExecutionError<double?>():
         safePrint(
           StorageConstants.errorReadingMessage(storageResult.error.toString()),
         );
@@ -112,12 +110,12 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<bool?> getBool(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.read(key: key),
+      () => storageInstance.getBool(key),
     );
     switch (storageResult) {
-      case ExecutionSuccess<String?>():
-        return bool.tryParse(storageResult.data ?? '');
-      case ExecutionError<String?>():
+      case ExecutionSuccess<bool?>():
+        return storageResult.data;
+      case ExecutionError<bool?>():
         safePrint(
           StorageConstants.errorReadingMessage(storageResult.error.toString()),
         );
@@ -128,7 +126,7 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<String?> getString(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.read(key: key),
+      () => storageInstance.getString(key),
     );
     switch (storageResult) {
       case ExecutionSuccess<String?>():
@@ -144,16 +142,12 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<List<String>?> getStringList(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.read(key: key),
+      () => storageInstance.getStringList(key),
     );
     switch (storageResult) {
-      case ExecutionSuccess<String?>():
-        if (storageResult.data == null || storageResult.data!.isEmpty) {
-          return null;
-        }
-        final result = jsonDecode(storageResult.data!);
-        return result is List<String> ? result : null;
-      case ExecutionError<String?>():
+      case ExecutionSuccess<List<String>?>():
+        return storageResult.data;
+      case ExecutionError<List<String>?>():
         safePrint(
           StorageConstants.errorReadingMessage(storageResult.error.toString()),
         );
@@ -164,9 +158,9 @@ class SecureStorageServiceImp implements StorageService {
   @override
   Future<void> deleteValue(String key) async {
     final storageResult = await ExecutionHandler.execute(
-      () => storageInstance.delete(key: key),
+      () => storageInstance.remove(key),
     );
-    if (storageResult is ExecutionError) {
+    if (storageResult is ExecutionError<bool>) {
       safePrint(
         StorageConstants.errorDeletingMessage(storageResult.error.toString()),
       );
@@ -175,10 +169,8 @@ class SecureStorageServiceImp implements StorageService {
 
   @override
   Future<void> deleteAll() async {
-    final storageResult = await ExecutionHandler.execute(
-      storageInstance.deleteAll,
-    );
-    if (storageResult is ExecutionError) {
+    final storageResult = await ExecutionHandler.execute(storageInstance.clear);
+    if (storageResult is ExecutionError<bool>) {
       safePrint(
         StorageConstants.errorDeletingMessage(storageResult.error.toString()),
       );

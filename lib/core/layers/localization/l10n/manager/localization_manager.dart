@@ -5,7 +5,7 @@ import '../../../../api/error/api_error_handler.dart';
 import '../../../../di/injectable_initializer.dart' show getIt;
 import '../../../../validation/validation_functions.dart';
 import '../../../storage/constants/storage_constants.dart';
-import '../../../storage/contracts/flutter_secure_storage_service_contract.dart';
+import '../../../storage/contracts/storage_service_contract.dart';
 import '../../constants/l10n_constants.dart';
 import '../../enums/languages_enum.dart';
 import '../generated/app_localizations.dart' show AppLocalizations;
@@ -16,7 +16,7 @@ class LocalizationManager extends ChangeNotifier {
   final StorageService _storageService;
 
   LocalizationManager(
-    this._storageService,
+    @Named(StorageConstants.secureStorage) this._storageService,
     @Named(L10nConstants.initCurrentLocal) this._currentLocale,
   );
 
@@ -40,11 +40,11 @@ class LocalizationManager extends ChangeNotifier {
   }
 
   void _saveLocal(String languageCode) {
-    _storageService.setStringValue(StorageConstants.localeKey, languageCode);
+    _storageService.setString(StorageConstants.localeKey, languageCode);
   }
 
   Future<String?> getSavedLocal() async {
-    final savedLocale = await _storageService.getStringValue(
+    final savedLocale = await _storageService.getString(
       StorageConstants.localeKey,
     );
     return savedLocale;

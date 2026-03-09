@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' show Brightness;
 import 'package:injectable/injectable.dart';
 
 import '../../storage/constants/storage_constants.dart';
-import '../../storage/contracts/flutter_secure_storage_service_contract.dart';
+import '../../storage/contracts/storage_service_contract.dart';
 import '../constants/theme_constants.dart';
 import '../extensions/brightness_enum_extension.dart';
 
@@ -11,10 +11,10 @@ abstract class ThemeInitializer {
   @preResolve
   @Named(ThemeConstants.initCurrentTheme)
   Future<InitialTheme> getInitCurrentTheme(
-    StorageService storageService,
+    @Named(StorageConstants.secureStorage) StorageService storageService,
   ) async {
     final savedTheme =
-        (await storageService.getStringValue(StorageConstants.localeKey)) ??
+        (await storageService.getString(StorageConstants.localeKey)) ??
         Brightness.light.getName();
     return InitialTheme(BrightnessEnumExtension.getBrightnessValue(savedTheme));
   }

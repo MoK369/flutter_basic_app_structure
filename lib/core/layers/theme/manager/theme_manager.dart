@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' show ChangeNotifier, Brightness;
-import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart' show singleton, Named;
 
 import '../../storage/constants/storage_constants.dart';
-import '../../storage/contracts/flutter_secure_storage_service_contract.dart';
+import '../../storage/contracts/storage_service_contract.dart';
 import '../constants/theme_constants.dart';
 import '../extensions/brightness_enum_extension.dart';
 import '../initializer/theme_initializer.dart';
@@ -12,8 +12,7 @@ class ThemeManager extends ChangeNotifier {
   final StorageService _storageService;
   final InitialTheme _currentTheme;
 
-  ThemeManager(
-    this._storageService,
+  ThemeManager(@Named(StorageConstants.secureStorage) this._storageService,
     @Named(ThemeConstants.initCurrentTheme) this._currentTheme,
   );
 
@@ -28,7 +27,7 @@ class ThemeManager extends ChangeNotifier {
   }
 
   void _saveTheme() {
-    _storageService.setStringValue(
+    _storageService.setString(
       StorageConstants.themeKey,
       _currentTheme.theme.getName(),
     );

@@ -54,6 +54,7 @@ dependencies:
   provider: ^6.1.5+1
 
   retrofit: ^4.9.2
+  shared_preferences: ^2.5.4
   talker_dio_logger: ^5.1.15
 
 

@@ -1,4 +1,7 @@
 abstract class StorageConstants {
+  // storage options
+  static const String secureStorage = 'secureStorage';
+  static const String sharedPreferences = 'sharedPreferences';
   static const String rememberMeValueKey = 'rememberMeKey';
   static const String localeKey = 'AppLocal';
   static const String themeKey = 'AppTheme';
