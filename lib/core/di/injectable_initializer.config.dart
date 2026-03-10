@@ -1,5 +1,5 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -13,10 +13,14 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:isar_community/isar.dart' as _i214;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../api/callers/dio/dio_service.dart' as _i530;
 import '../api/error/api_error_handler.dart' as _i367;
+import '../layers/db/contracts/email_repository.dart' as _i150;
+import '../layers/db/implementation/email_repository_imp.dart' as _i948;
+import '../layers/db/initializer/db_initializer.dart' as _i1006;
 import '../layers/localization/initializer/locale_initializer.dart' as _i806;
 import '../layers/localization/l10n/generated/app_localizations.dart' as _i58;
 import '../layers/localization/l10n/manager/localization_manager.dart' as _i362;
@@ -25,6 +29,8 @@ import '../layers/localization/l10n/register/app_localization_register.dart'
 import '../layers/storage/contracts/storage_service_contract.dart' as _i1003;
 import '../layers/storage/implementation/flutter_secure_storage_service_imp.dart'
     as _i856;
+import '../layers/storage/implementation/shared_preferences_storage_service_imp.dart'
+    as _i759;
 import '../layers/storage/initializer/storage_initializer.dart' as _i272;
 import '../layers/theme/initializer/theme_initializer.dart' as _i990;
 import '../layers/theme/manager/theme_manager.dart' as _i701;
@@ -38,6 +44,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final storagesInitializer = _$StoragesInitializer();
+    final dbInitializer = _$DbInitializer();
     final dioService = _$DioService();
     final localeInitializer = _$LocaleInitializer();
     final themeInitializer = _$ThemeInitializer();
@@ -46,9 +53,22 @@ extension GetItInjectableX on _i174.GetIt {
       () => storagesInitializer.initSharedPreferences(),
       preResolve: true,
     );
+    await gh.factoryAsync<_i214.Isar>(
+      () => dbInitializer.initIsar(),
+      preResolve: true,
+    );
     gh.lazySingleton<_i361.Dio>(() => dioService.getInstance());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => storagesInitializer.initFlutterSecureStorage(),
+    );
+    gh.lazySingleton<_i1003.StorageService>(
+      () => _i759.SharedPreferencesStorageServiceImp(
+        gh<_i460.SharedPreferences>(),
+      ),
+      instanceName: 'sharedPreferences',
+    );
+    gh.factory<_i150.EmailRepository>(
+      () => _i948.EmailRepositoryImp(gh<_i214.Isar>()),
     );
     gh.lazySingleton<_i1003.StorageService>(
       () => _i856.SecureStorageServiceImp(gh<_i558.FlutterSecureStorage>()),
@@ -97,6 +117,8 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$StoragesInitializer extends _i272.StoragesInitializer {}
+
+class _$DbInitializer extends _i1006.DbInitializer {}
 
 class _$DioService extends _i530.DioService {}
 
