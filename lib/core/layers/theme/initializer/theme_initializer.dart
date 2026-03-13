@@ -14,7 +14,7 @@ abstract class ThemeInitializer {
     @Named(StorageConstants.secureStorage) StorageService storageService,
   ) async {
     final savedTheme =
-        (await storageService.getString(StorageConstants.localeKey)) ??
+        (await storageService.getString(StorageConstants.themeKey)) ??
         Brightness.light.getName();
     return InitialTheme(BrightnessEnumExtension.getBrightnessValue(savedTheme));
   }
