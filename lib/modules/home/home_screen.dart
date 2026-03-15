@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/api/endpoints/api_endpoints.dart';
-import '../../core/functions/safe_print.dart';
+import '../../core/bases/base_stateful_widget_state.dart';
+import '../../core/layers/localization/enums/languages_enum.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,15 +10,38 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends BaseStatefulWidgetState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    safePrint(ApiEndpoints.baseUrl);
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('Home Screen')],
+          spacing: 15,
+          children: [
+            Text(appLocalizations.cancel),
+            FilledButton(
+              onPressed: () {
+                themeManager.changeTheme(
+                  themeManager.currentTheme == Brightness.light
+                      ? Brightness.dark
+                      : Brightness.light,
+                );
+              },
+              child: const Text('Change Theme'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                await localizationManager.changeLocal(
+                  localizationManager.currentLocale ==
+                          LanguagesEnum.ar.getLanguageCode()
+                      ? LanguagesEnum.en
+                      : LanguagesEnum.ar,
+                );
+              },
+              child: const Text('Change Local'),
+            ),
+          ],
         ),
       ),
     );

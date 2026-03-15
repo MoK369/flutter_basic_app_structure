@@ -8,6 +8,7 @@ import '../layers/localization/l10n/generated/app_localizations.dart'
     show AppLocalizations;
 import '../layers/localization/l10n/manager/localization_manager.dart';
 import '../layers/theme/extensions/app_typography.dart' show AppTypography;
+import '../layers/theme/manager/theme_manager.dart';
 import '../validation/validation_functions.dart';
 
 typedef VoidFunction = void Function()?;
@@ -18,6 +19,7 @@ abstract class BaseStatefulWidgetState<T extends StatefulWidget>
   late AppTypography typography;
   late Size screenSize;
   late LocalizationManager localizationManager;
+  late ThemeManager themeManager;
   late AppLocalizations appLocalizations;
   late ValidateFunctions validateFunctions;
 
@@ -29,7 +31,8 @@ abstract class BaseStatefulWidgetState<T extends StatefulWidget>
     typography = theme.extension<AppTypography>() ?? AppTypography.mobileBase;
     screenSize = MediaQuery.sizeOf(context);
     localizationManager = getIt.get<LocalizationManager>();
-    appLocalizations = AppLocalizations.of(context)!;
+    themeManager = getIt.get<ThemeManager>();
+    appLocalizations = getIt.get<AppLocalizations>();
     validateFunctions = getIt.get<ValidateFunctions>();
   }
 

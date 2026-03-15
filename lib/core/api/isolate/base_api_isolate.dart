@@ -41,6 +41,7 @@ class _IsolateMessage<T, P> {
   });
 }
 
+@pragma('vm:entry-point')
 FutureOr<void> _isolateEntryPoint<T, P>(_IsolateMessage<T, P> message) async {
   final result = await message.function(message.param);
   message.sendPort.send(result);

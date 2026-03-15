@@ -4,6 +4,7 @@ import 'package:provider/provider.dart'
     show MultiProvider, ChangeNotifierProvider, Consumer2;
 
 import 'core/di/injectable_initializer.dart';
+import 'core/functions/safe_print.dart';
 import 'core/layers/localization/l10n/generated/app_localizations.dart'
     show AppLocalizations;
 import 'core/layers/localization/l10n/manager/localization_manager.dart'
@@ -18,17 +19,18 @@ GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Initializations
   await configureDependencies();
   await dotenv.load(fileName: 'config/.env');
 
   runApp(const MyApp());
+  Future.microtask(() => safePrint(''),);
   Future.delayed(Duration.zero, () async {});
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

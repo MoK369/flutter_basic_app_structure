@@ -1,0 +1,9 @@
+- command of generate local keys:
+fvm flutter gen-l10n
+
+- command of running devtools in browser:
+fvm dart devtools
+
+- command of running build runner:
+fvm dart run build_runner build
+fvm dart run build_runner watch
