@@ -1,4 +1,4 @@
-import 'package:fit_ui/fit_ui.dart';
+import 'package:fit_ui/fit_ui.dart' show DeviceScreenType;
 import 'package:flutter/material.dart';
 
 import '../extensions/app_typography.dart';
@@ -36,10 +36,7 @@ abstract class AppThemeFactory {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.indigo,
-        brightness: brightness,
-      ),
+      colorScheme: colorScheme,
       extensions: [typography],
     );
   }

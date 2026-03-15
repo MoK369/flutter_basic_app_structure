@@ -11,10 +11,16 @@ abstract class RoutingProvider {
       //var args = settings.arguments;
       switch (name) {
         case DefinedRoutes.homeRoute:
+          // MaterialPageRoute
           return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const HomeScreen(),
+
+            /// executed during push (when the route is being shown) and pop (when it’s being dismissed)
             transitionsBuilder: PageTransitions.slideAndFade,
+
+            /// This is important for testing
+            settings: const RouteSettings(name: DefinedRoutes.homeRoute),
           );
 
         default:
@@ -22,6 +28,25 @@ abstract class RoutingProvider {
       }
     } catch (e) {
       return _errorRoute();
+    }
+  }
+
+  static List<Route<dynamic>> generateInitialRoute(String initialRoute) {
+    try {
+      switch (initialRoute) {
+        case DefinedRoutes.homeRoute:
+          return [
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const HomeScreen(),
+              transitionsBuilder: PageTransitions.slideAndFade,
+            ),
+          ];
+        default:
+          return [_errorRoute()];
+      }
+    } catch (e) {
+      return [_errorRoute()];
     }
   }
 

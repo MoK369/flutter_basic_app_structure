@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// A new API to get the most use out of the App's Theme and making sure that
+/// our custom widgets rarely require inline styling
 @immutable
 class AppTypography extends ThemeExtension<AppTypography> {
   const AppTypography({
     required this.hero,
     required this.title,
+    required this.subTitle,
     required this.body,
     required this.label,
     required this.button,
@@ -12,13 +15,14 @@ class AppTypography extends ThemeExtension<AppTypography> {
 
   final TextStyle hero;
   final TextStyle title;
+  final TextStyle subTitle;
   final TextStyle body;
   final TextStyle label;
   final TextStyle button;
 
   static const mobileBase = AppTypography(
     hero: TextStyle(
-      fontSize: 34, // prominent but still phone-friendly
+      fontSize: 34,
       fontWeight: FontWeight.w800,
       height: 1.15,
       letterSpacing: -0.25,
@@ -26,6 +30,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
     title: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w700,
+      height: 1.30,
+      letterSpacing: 0.10,
+    ),
+    subTitle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
       height: 1.30,
       letterSpacing: 0.10,
     ),
@@ -63,6 +73,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.30,
       letterSpacing: 0.10,
     ),
+    subTitle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      height: 1.30,
+      letterSpacing: 0.10,
+    ),
     body: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
@@ -97,6 +113,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.28,
       letterSpacing: 0.05,
     ),
+    subTitle: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w700,
+      height: 1.28,
+      letterSpacing: 0.05,
+    ),
     body: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w400,
@@ -124,8 +146,9 @@ class AppTypography extends ThemeExtension<AppTypography> {
     return AppTypography(
       hero: hero.copyWith(color: scheme.onSurface),
       title: title.copyWith(color: scheme.onSurface),
+      subTitle: subTitle.copyWith(color: scheme.onSurface),
       // slightly lower contrast for long-form reading
-      body: body.copyWith(color: scheme.onSurface.withAlpha(200)),
+      body: body.copyWith(color: scheme.onSurface),
       label: label.copyWith(color: scheme.onSurfaceVariant),
       button: button.copyWith(color: buttonColor),
     );
@@ -137,6 +160,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     return AppTypography(
       hero: f(hero),
       title: f(title),
+      subTitle: f(subTitle),
       body: f(body),
       label: f(label),
       button: f(button),
@@ -191,10 +215,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
       .withFontFamily(fontFamily)
       .withColors(scheme, forFilledButtons: forFilledButtons);
 
+  /// update parts of your extension
   @override
   AppTypography copyWith({
     TextStyle? hero,
     TextStyle? title,
+    TextStyle? subTitle,
     TextStyle? body,
     TextStyle? label,
     TextStyle? button,
@@ -202,12 +228,14 @@ class AppTypography extends ThemeExtension<AppTypography> {
     return AppTypography(
       hero: hero ?? this.hero,
       title: title ?? this.title,
+      subTitle: subTitle ?? this.subTitle,
       body: body ?? this.body,
       label: label ?? this.label,
       button: button ?? this.button,
     );
   }
 
+  /// interpolate between two instances (used when themes animate, e.g., when switching light/dark)
   @override
   AppTypography lerp(ThemeExtension<AppTypography>? other, double t) {
     if (other is! AppTypography) {
