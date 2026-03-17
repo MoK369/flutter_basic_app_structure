@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' show dotenv;
 import 'package:provider/provider.dart'
@@ -13,6 +14,7 @@ import 'core/layers/theme/factory/app_theme_factory.dart' show AppThemeFactory;
 import 'core/layers/theme/manager/theme_manager.dart';
 import 'core/routing/routing_provider.dart';
 import 'core/screen/custom_breakpoints.dart';
+import 'firebase_options.dart';
 import 'modules/home/home_screen.dart';
 
 GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
@@ -25,7 +27,11 @@ void main() async {
 
   runApp(const MyApp());
   Future.microtask(() => safePrint(''),);
-  Future.delayed(Duration.zero, () async {});
+  Future.delayed(Duration.zero, () async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

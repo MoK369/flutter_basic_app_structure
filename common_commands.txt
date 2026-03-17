@@ -7,3 +7,10 @@ fvm dart devtools
 - command of running build runner:
 fvm dart run build_runner build
 fvm dart run build_runner watch
+
+
+see a list of all analysis issues, including errors, warnings, hints, and lints:
+fvm dart analyze
+
+- apply possible changes suggested by dart analyzer:
+fvm dart fix --apply
