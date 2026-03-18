@@ -14,3 +14,22 @@ fvm dart analyze
 
 - apply possible changes suggested by dart analyzer:
 fvm dart fix --apply
+
+Related to git:
+- make an alias for when checking out remove firebase untracked files (for security) so they don't make errors in the other branches:
+git config --global alias.safe-checkout '!git clean -f -f .firebaserc 2>/dev/null; \
+git clean -f -f firestore.rules 2>/dev/null; \
+git clean -f -f firestore.indexes.json 2>/dev/null; \
+git clean -f -f google-services.json 2>/dev/null; \
+git clean -f -f GoogleService-Info.plist 2>/dev/null; \
+git clean -f -f firebase_options.dart 2>/dev/null; \
+git clean -f -f firebase-config.js 2>/dev/null; \
+git clean -f -f firebase.json 2>/dev/null; \
+git clean -fd .firebase 2>/dev/null; \
+git clean -fd firestore_export 2>/dev/null; \
+git clean -f -f *.backup 2>/dev/null; \
+git clean -f -f *.json.backup 2>/dev/null; \
+git checkout'
+
+- list aliases saved in git:
+git config --get-regexp alias
