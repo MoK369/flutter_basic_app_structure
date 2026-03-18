@@ -1,0 +1,8 @@
+- After adding each script run this command for each file
+to make it executable:
+chmod +x ./.firebase_envs/scripts/linux/save_firebase.sh
+
+- command to run scripts:
+bash ./.firebase_envs/scripts/linux/save_firebase.sh
+
+
