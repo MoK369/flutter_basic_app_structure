@@ -62,3 +62,4 @@ firestore_export/
 *.json.backup
 firebase_options.dart
 firebase-config.js
+firebase.json
