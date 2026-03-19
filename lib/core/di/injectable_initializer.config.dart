@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
@@ -17,6 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../api/callers/dio/dio_service.dart' as _i530;
 import '../api/error/api_error_handler.dart' as _i367;
+import '../layers/db/contracts/email_repository.dart' as _i150;
+import '../layers/db/implementation/email_repository_imp.dart' as _i948;
+import '../layers/db/initializer/db_initializer.dart' as _i1006;
 import '../layers/localization/initializer/locale_initializer.dart' as _i806;
 import '../layers/localization/l10n/generated/app_localizations.dart' as _i58;
 import '../layers/localization/l10n/manager/localization_manager.dart' as _i362;
@@ -41,6 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final storagesInitializer = _$StoragesInitializer();
     final dioService = _$DioService();
+    final dbInitializer = _$DbInitializer();
     final localeInitializer = _$LocaleInitializer();
     final themeInitializer = _$ThemeInitializer();
     final appLocalizationRegister = _$AppLocalizationRegister();
@@ -51,6 +56,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioService.getInstance());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => storagesInitializer.initFlutterSecureStorage(),
+    );
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+      () => dbInitializer.getFirestoreInstance(),
+    );
+    gh.factory<_i150.EmailRepository>(
+      () => _i948.EmailRepositoryImp(gh<_i974.FirebaseFirestore>()),
     );
     gh.lazySingleton<_i1003.StorageService>(
       () => _i759.SharedPreferencesStorageServiceImp(
@@ -107,6 +118,8 @@ extension GetItInjectableX on _i174.GetIt {
 class _$StoragesInitializer extends _i272.StoragesInitializer {}
 
 class _$DioService extends _i530.DioService {}
+
+class _$DbInitializer extends _i1006.DbInitializer {}
 
 class _$LocaleInitializer extends _i806.LocaleInitializer {}
 

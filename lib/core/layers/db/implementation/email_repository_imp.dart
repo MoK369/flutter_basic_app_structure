@@ -1,17 +1,32 @@
-// import 'package:injectable/injectable.dart';
-// import 'package:isar_community/isar.dart' show Isar, QueryFilters, QueryExecute;
-//
-// import '../contracts/email_repository.dart';
-// import '../models/email/email_model.dart';
-// import 'isar_base_repository.dart';
-//
-// @Injectable(as: EmailRepository)
-// class EmailRepositoryImp extends IsarBaseRepository<Email>
-//     implements EmailRepository {
-//   EmailRepositoryImp(Isar isar) : super(isar, isar.emails);
-//
-//   @override
-//   Future<Email?> findByTitle(String title) {
-//     return isar.emails.where().filter().titleEqualTo(title).findFirst();
-//   }
-// }
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:injectable/injectable.dart';
+
+import '../contracts/email_repository.dart';
+import '../models/email/email_model.dart';
+import 'firestore_base_repository.dart';
+
+@Injectable(as: EmailRepository)
+class EmailRepositoryImp extends FirestoreBaseRepository<EmailModel>
+    implements EmailRepository {
+  EmailRepositoryImp(FirebaseFirestore firestoreDB)
+    : super(
+        firestoreDB,
+        firestoreDB
+            .collection('emails')
+            .withConverter(
+              fromFirestore: (snapshot, options) =>
+                  EmailModel.fromJson(snapshot.data()),
+              toFirestore: (emailModel, options) => emailModel.toJson(),
+            ),
+        (model) => model.id ?? model.hashCode.toString(),
+        (model) => model.toJson(),
+      );
+
+  @override
+  Future<EmailModel> getByTitle(String title) async {
+    return (await collectionReference.where('title', isEqualTo: title).get())
+        .docs
+        .first
+        .data();
+  }
+}

@@ -3,17 +3,17 @@ abstract interface class DbBaseRepository<T> {
   Future<void> create(List<T> models);
 
   // --- get ---
-  Future<T?> findById(int id);
+  Future<T?> findById(String id);
 
   Future<List<T>> findAll();
 
   // --- update ---
-  Future<bool> updateById(int id, void Function(T current) mutate);
+  Future<void> updateById(String id, T updatedModel);
 
-  Future<int> updateManyByIds(List<int> ids, void Function(T current) mutate);
+  Future<void> updateManyByIds(List<String> ids, T updatedModel);
 
   // --- delete ---
-  Future<bool> delete(int id);
+  Future<void> delete(String id);
 
   Future<int> deleteAll();
 }
